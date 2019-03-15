@@ -6,11 +6,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 require('./configs/db.config');
+require('./configs/passport.config');
 const session = require('./configs/session.config');
 // TODO: cors configuration
-// TODO: passport configuration
 
 
 const authRouter = require('./routes/auth.routes');
@@ -22,6 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', authRouter);
 
