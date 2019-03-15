@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 const constants = require('../constants');
 const SALT_WORK_FACTOR = 10;
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-const PASSWORD_PATTERN = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/
+const PASSWORD_PATTERN = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+const URL_PATTERN = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -29,7 +30,10 @@ const userSchema = new mongoose.Schema({
     required: 'Course is required',
     enum: constants.courses
   },
-  avatarURL: String
+  avatarURL: {
+    type: String,
+    match: [URL_PATTERN, 'Invalid avatar URL pattern']
+  }
 }, {
   timestamps: true,
   toJSON: {

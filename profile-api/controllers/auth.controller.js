@@ -35,5 +35,13 @@ module.exports.getProfile = (req, res, next) => {
 }
 
 module.exports.editProfile = (req, res, next) => {
-  throw createError(501, 'Not Implemented')
+  delete req.body.email;
+  
+  const user = req.user;
+  Object.keys(req.body).forEach(prop => user[prop] = req.body[prop]);
+  if (req.file) user.avatarURL = req.file.secure_url;
+  
+  user.save()
+    .then(user => res.status(201).json(user))
+    .catch(next)
 }
