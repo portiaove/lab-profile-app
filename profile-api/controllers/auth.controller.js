@@ -31,7 +31,7 @@ module.exports.logout = (req, res, next) => {
 }
 
 module.exports.getProfile = (req, res, next) => {
-  throw createError(501, 'Not Implemented')
+  res.json(req.user);
 }
 
 module.exports.editProfile = (req, res, next) => {
