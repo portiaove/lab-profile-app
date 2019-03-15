@@ -5,6 +5,7 @@ const secure = require('../middlewares/secure.mid');
 
 router.post('/register', auth.register);
 router.post('/authenticate', auth.authenticate);
+router.get('/logout', auth.logout);
 // TODO: logout, get profile & edit profile routes
 
 module.exports = router;

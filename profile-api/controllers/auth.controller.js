@@ -26,7 +26,8 @@ module.exports.authenticate = (req, res, next) => {
 }
 
 module.exports.logout = (req, res, next) => {
-  throw createError(501, 'Not Implemented')
+  req.logout();
+  res.status(204).json();
 }
 
 module.exports.getProfile = (req, res, next) => {
