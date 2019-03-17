@@ -36,7 +36,6 @@ export default class Profile extends Component {
 
   handleChange = (event) => {
     const { name, value, files } = event.target;
-    console.log(name, value);
     this.setState({
       user: {
         ...this.state.user,

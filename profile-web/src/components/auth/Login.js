@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import authService from '../../services/AuthService'
+import { withAuthConsumer } from '../../contexts/AuthStore';
 
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
@@ -23,7 +24,7 @@ const validations = {
   }
 }
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     user: {
       email: '',
@@ -63,7 +64,11 @@ export default class Login extends Component {
     if (this.isValid()) {
       authService.authenticate(this.state.user)
         .then(
-          (user) => this.setState({ isRegistered: true }),
+          (user) => {
+            this.setState({ isAuthenticated: true }, () => {
+              this.props.onUserChange(user);
+            })
+          },
           (error) => {
             const { message, errors } = error.response.data;
             this.setState({
@@ -84,8 +89,8 @@ export default class Login extends Component {
   }
 
   render() {
-    const { isRegistered, errors, user, touch } =  this.state;
-    if (isRegistered) {
+    const { isAuthenticated, errors, user, touch } =  this.state;
+    if (isAuthenticated) {
       return (<Redirect to="/profile" />)
     }
 
@@ -119,3 +124,6 @@ export default class Login extends Component {
     );
   }
 }
+
+
+export default withAuthConsumer(Login)
