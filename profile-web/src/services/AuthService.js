@@ -8,7 +8,11 @@ const http = axios.create({
 const register = (user) => http.post('/register', user)
   .then(res => Promise.resolve(res.data));
 
+const authenticate = (user) => http.post('/authenticate', user)
+  .then(res => Promise.resolve(res.data));
+
 
 export default {
-  register
+  register,
+  authenticate
 }
