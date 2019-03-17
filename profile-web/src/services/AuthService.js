@@ -5,4 +5,10 @@ const http = axios.create({
   withCredentials: true
 })
 
-module.exports.register = (user) => http.post('/register', user).then(res => res.data);
+const register = (user) => http.post('/register', user)
+  .then(res => Promise.resolve(res.data));
+
+
+export default {
+  register
+}
