@@ -7,22 +7,6 @@ import authService from '../../services/AuthService'
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 const validations = {
-  email: (value) => {
-    let message;
-    if (!value) {
-      message = 'Email is required';
-    } else if (!EMAIL_PATTERN.test(value)) {
-      message = 'Invalid email pattern';
-    }
-    return message;
-  },
-  password: (value) => {
-    let message;
-    if (!value) {
-      message = 'Password is required';
-    }
-    return message;
-  },
   course: (value) => {
     let message;
     if (!value) {
@@ -39,7 +23,7 @@ const validations = {
   }
 }
 
-export default class Register extends Component {
+export default class Profile extends Component {
   state = {
     user: {
       email: '',
@@ -48,12 +32,12 @@ export default class Register extends Component {
       course: courses[0]
     },
     errors: {},
-    touch: {},
-    isRegistered: false
+    touch: {}
   }
 
   handleChange = (event) => {
     const { name, value } = event.target;
+    console.log(name, value);
     this.setState({
       user: {
         ...this.state.user,
@@ -79,9 +63,9 @@ export default class Register extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.isValid()) {
-      authService.register(this.state.user)
+      authService.updateProfile(this.state.user)
         .then(
-          (user) => this.setState({ isRegistered: true }),
+          (user) => this.setState({ user: {...this.state.user, ...user} }),
           (error) => {
             const { message, errors } = error.response.data;
             this.setState({
@@ -101,11 +85,16 @@ export default class Register extends Component {
       .some(attr => this.state.errors[attr])
   }
 
+  componentDidMount() {
+    authService.getProfile()
+      .then(
+          (user) => this.setState({ user: {...this.state.user, ...user} }),
+          (error) => console.error(error)
+        )
+  }
+
   render() {
-    const { isRegistered, errors, user, touch } =  this.state;
-    if (isRegistered) {
-      return (<Redirect to="/login" />)
-    }
+    const { errors, user, touch } =  this.state;
 
     const campusOpts = campus.map(c => <option key={c} value={c}>{c}</option>)
     const courseOpts = courses.map(c => <option key={c} value={c}>{c}</option>)
@@ -114,12 +103,11 @@ export default class Register extends Component {
       <div className="box mx-auto">
         <div className="row">
           <div className="col-6">
-            <h3>Sign up</h3>
-            <form id="register-form" className="mt-4" onSubmit={this.handleSubmit}>
+            <h3>Profile</h3>
+            <form id="profile-form" className="mt-4" onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label>Email</label>
-                <input type="email" name="email" className={`form-control ${touch.email && errors.email ? 'is-invalid' : ''}`} onChange={this.handleChange} onBlur={this.handleBlur} value={user.email} />
-                <div className="invalid-feedback">{ errors.email }</div>
+                <input type="email" name="email" className="form-control" value={user.email} disabled/>
               </div>
               <div className="form-group">
                 <label>Password</label>
@@ -143,10 +131,8 @@ export default class Register extends Component {
             </form>
           </div>
           <div className="col-6 pt-4">
-            <h5>Hello!!</h5>
-            <p className="lead mb-5">Welcome to IronProfile!</p>
-            <p className="mb-2"><small>If you signup, you agree with all our terms and conditions where we can do whatever we want with the data!</small></p>
-            <button className="btn btn-white" form="register-form" type="submit" disabled={!this.isValid()}> Create the Account</button>
+            <button className="btn btn-white" form="profile-form" type="submit" disabled={!this.isValid()}>Update profile</button>
+            <p className="mt-5"><small>This user is able to upload a new profile photo, using NodeJS and Multer uploader.</small></p>
           </div>
         </div>
       </div>

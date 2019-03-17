@@ -49,7 +49,7 @@ export default class Login extends Component {
   }
 
   handleBlur = (event) => {
-    const { name, value } = event.target;
+    const { name } = event.target;
     this.setState({
       touch: {
         ...this.state.touch,
@@ -93,7 +93,7 @@ export default class Login extends Component {
       <div className="box mx-auto">
         <div className="row">
           <div className="col-6">
-            <h3>Sign up</h3>
+            <h3>Log in</h3>
             <form id="login-form" className="mt-4" onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label>Email</label>
