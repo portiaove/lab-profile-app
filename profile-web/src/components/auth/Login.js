@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import courses from '../../data/courses.json'
-import campus from '../../data/campus.json'
 import authService from '../../services/AuthService'
 
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -90,9 +88,6 @@ export default class Login extends Component {
     if (isRegistered) {
       return (<Redirect to="/profile" />)
     }
-
-    const campusOpts = campus.map(c => <option key={c} value={c}>{c}</option>)
-    const courseOpts = courses.map(c => <option key={c} value={c}>{c}</option>)
 
     return (
       <div className="box mx-auto">

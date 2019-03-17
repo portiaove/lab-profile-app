@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import courses from '../../data/courses.json'
 import campus from '../../data/campus.json'
 import authService from '../../services/AuthService'
@@ -128,7 +128,7 @@ export default class Register extends Component {
               </div>
               <div className="form-group">
                 <label>Campus</label>
-                <select className={`form-control ${touch.campus && errors.campus ? 'is-invalid' : ''}`} name="course" onChange={this.handleChange} onBlur={this.handleBlur} value={user.campus}>
+                <select className={`form-control ${touch.campus && errors.campus ? 'is-invalid' : ''}`} name="campus" onChange={this.handleChange} onBlur={this.handleBlur} value={user.campus}>
                   {campusOpts}
                 </select>
                 <div className="invalid-feedback">{ errors.campus }</div>
