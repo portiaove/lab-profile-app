@@ -24,6 +24,7 @@ code {
   height: 458px;
   padding: 20px;
   padding: 40px 50px;
+  position: relative;
 }
 
 .box h3 {
@@ -91,4 +92,12 @@ code {
 
 .box .form-group {
   margin-bottom: 5px;
+}
+
+.box .btn-logout {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: darkred;
+  cursor: pointer;
 }

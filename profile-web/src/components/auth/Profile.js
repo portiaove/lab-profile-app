@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import courses from '../../data/courses.json'
 import campus from '../../data/campus.json'
 import authService from '../../services/AuthService'
+import { withAuthConsumer } from '../../contexts/AuthStore.js';
 
 const validations = {
   course: (value) => {
@@ -20,7 +21,7 @@ const validations = {
   }
 }
 
-export default class Profile extends Component {
+class Profile extends Component {
   state = {
     user: {
       email: '',
@@ -83,6 +84,11 @@ export default class Profile extends Component {
       .some(attr => this.state.errors[attr])
   }
 
+  handleLogout = () => {
+    authService.logout()
+      .then(() => this.props.onUserChange(null))
+  }
+
   componentDidMount() {
     authService.getProfile()
       .then(
@@ -100,6 +106,7 @@ export default class Profile extends Component {
     return (
       <div className="box mx-auto">
         <div className="row">
+          <i className="fa fa-sign-out btn-logout" onClick={this.handleLogout}></i>
           <div className="col-6">
             <h3>Profile</h3>
             <form id="profile-form" className="mt-4" onSubmit={this.handleSubmit}>
@@ -139,3 +146,5 @@ export default class Profile extends Component {
     );
   }
 }
+
+export default withAuthConsumer(Profile)

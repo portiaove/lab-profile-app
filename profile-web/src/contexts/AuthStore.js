@@ -15,7 +15,7 @@ class AuthStore extends Component {
   }
 
   isAuthenticated = () => {
-    return this.state.user.email 
+    return this.state.user && this.state.user.email 
   }
 
   render() {

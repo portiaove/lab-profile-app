@@ -21,7 +21,12 @@ const updateProfile = (user) => {
     data.append(prop, user[prop])
   });
   return http.put('/profile', data)
-  .then(res => Promise.resolve(res.data));
+    .then(res => Promise.resolve(res.data));
+}
+
+const logout = () => {
+  return http.get('/logout')
+    .then(res => Promise.resolve(res.data));
 }
 
 
@@ -29,5 +34,6 @@ export default {
   register,
   authenticate,
   getProfile,
-  updateProfile
+  updateProfile,
+  logout
 }
