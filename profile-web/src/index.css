@@ -43,7 +43,6 @@ code {
   width: 100%;
 }
 
-
 .box .btn-green {
   background-color: #c1dfc4;
   border-color: #c1dfc4;
@@ -78,6 +77,16 @@ code {
   border-radius: 3px;
   height: 35px; 
   font-size: 15px;
+}
+
+.box img,
+.box .avatar {
+  max-width: 200px;
+  width: 100%;
+}
+
+.box input[type="file"] {
+  display: none;
 }
 
 .box .form-group {

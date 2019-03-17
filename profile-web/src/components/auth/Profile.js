@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import courses from '../../data/courses.json'
 import campus from '../../data/campus.json'
 import authService from '../../services/AuthService'
-
-const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 const validations = {
   course: (value) => {
@@ -29,19 +26,21 @@ export default class Profile extends Component {
       email: '',
       password: '',
       campus: campus[0],
-      course: courses[0]
+      course: courses[0],
+      avatarURL: 'http://ecuciencia.utc.edu.ec/media/foto/default-user_x5fGYax.png',
+      avatar: ''
     },
     errors: {},
     touch: {}
   }
 
   handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, files } = event.target;
     console.log(name, value);
     this.setState({
       user: {
         ...this.state.user,
-        [name]: value
+        [name]: files && files[0] ? files[0] : value
       },
       errors: {
         ...this.state.errors,
@@ -131,6 +130,8 @@ export default class Profile extends Component {
             </form>
           </div>
           <div className="col-6 pt-4">
+            <label htmlFor="avatar" className="avatar"><img src={user.avatar ? URL.createObjectURL(user.avatar) : user.avatarURL} className="rounded mb-3" alt="Cinque Terre" /></label>
+            <input type="file" id="avatar"  name="avatar" onChange={this.handleChange} />
             <button className="btn btn-white" form="profile-form" type="submit" disabled={!this.isValid()}>Update profile</button>
             <p className="mt-5"><small>This user is able to upload a new profile photo, using NodeJS and Multer uploader.</small></p>
           </div>
